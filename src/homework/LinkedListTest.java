@@ -1,20 +1,10 @@
 package homework;
 
-import org.testng.Assert;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-
 import java.util.*;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class LinkedListTest {
-
-    @BeforeTest
-    public void beforeTest() {
-        System.out.println("Ready to start");
-    }
 
     @Test
     public void equals_equalityWithNullTest_shouldBeFalse() {
@@ -22,7 +12,7 @@ public class LinkedListTest {
 
         boolean result = list.equals(null);
 
-        Assert.assertFalse(result);
+        assertThat(result).isFalse();
     }
 
     @Test
@@ -32,7 +22,7 @@ public class LinkedListTest {
 
         boolean result = list.equals(list2);
 
-        Assert.assertTrue(result);
+        assertThat(result).isTrue();
     }
 
     @Test
@@ -45,8 +35,8 @@ public class LinkedListTest {
         boolean result = list.equals(list2);
         boolean result2 = list2.equals(list);
 
-        Assert.assertTrue(result);
-        Assert.assertTrue(result2);
+        assertThat(result).isTrue();
+        assertThat(result2).isTrue();
     }
 
     @Test
@@ -62,9 +52,9 @@ public class LinkedListTest {
         boolean result2 = list2.equals(list3);
         boolean result3 = list.equals(list2);
 
-        Assert.assertTrue(result);
-        Assert.assertTrue(result2);
-        Assert.assertTrue(result3);
+        assertThat(result).isTrue();
+        assertThat(result2).isTrue();
+        assertThat(result3).isTrue();
     }
 
     @Test
@@ -77,18 +67,18 @@ public class LinkedListTest {
         boolean result = list.equals(list2);
         boolean result2 = list.equals(list2);
 
-        Assert.assertTrue(result);
-        Assert.assertTrue(result2);
+        assertThat(result).isTrue();
+        assertThat(result2).isTrue();
     }
 
     @Test
-    public void equals_objectNotInstanceofThis_shouldBeFalse() {
+    public void equals_objectNotInstanceOfThis_shouldBeFalse() {
         LinkedList list = new LinkedList();
         java.util.LinkedList<String> list2 = new java.util.LinkedList<>();
 
         boolean result = list.equals(list2);
 
-        Assert.assertFalse(result);
+        assertThat(result).isFalse();
     }
 
     @Test
@@ -102,7 +92,7 @@ public class LinkedListTest {
 
         boolean result = list.equals(list2);
 
-        Assert.assertTrue(result);
+        assertThat(result).isTrue();
     }
 
     @Test
@@ -116,7 +106,7 @@ public class LinkedListTest {
 
         boolean result = list.equals(list2);
 
-        Assert.assertFalse(result);
+        assertThat(result).isFalse();
     }
 
     @Test
@@ -127,7 +117,7 @@ public class LinkedListTest {
 
         boolean result = list.equals(list2);
 
-        Assert.assertFalse(result);
+        assertThat(result).isFalse();
     }
 
     @Test
@@ -138,7 +128,7 @@ public class LinkedListTest {
         int result = list.hashCode();
         int result2 = list2.hashCode();
 
-        Assert.assertEquals(result, result2);
+        assertThat(result).isEqualTo(result2);
     }
 
     @Test
@@ -153,18 +143,18 @@ public class LinkedListTest {
         int result = list.hashCode();
         int result2 = list2.hashCode();
 
-        Assert.assertEquals(result, result2);
+        assertThat(result).isEqualTo(result2);
     }
 
     @Test
-    public void hashcode_consistencyTest_shouldBeTrue() {
+    public void hashcode_consistencyTest_shouldBeEqual() {
         LinkedList list = new LinkedList();
         list.add("Hello");
 
         int result = list.hashCode();
         int result2 = list.hashCode();
 
-        Assert.assertEquals(result, result2);
+        assertThat(result).isEqualTo(result2);
     }
 
     @Test
@@ -181,54 +171,52 @@ public class LinkedListTest {
     }
 
     @Test
-    public void add_addingElement_mustBeDone() {
+    public void add_elementInstanceOfString_elementAdded() {
         LinkedList list = new LinkedList();
 
         boolean result = list.add("Hello");
 
-        Assert.assertTrue(result);
+        assertThat(result).isTrue();
         assertThat(list).contains("Hello");
         assertThat(list.size()).isEqualTo(1);
     }
 
     @Test
-    public void add_correctIndex_mustBeDone() {
+    public void add_supportedIndex_elementAdded() {
         LinkedList list = new LinkedList();
 
         list.add(0, "Two");
         list.add(1, "Three");
         list.add(0, "One");
 
-        assertThat(list).contains("One", "Two", "Three");
+        assertThat(list).containsOnly("One", "Two", "Three");
         assertThat(list.size()).isEqualTo(3);
     }
 
     @Test
-    public void addFirst_addingElement_mustBeDone() {
+    public void addFirst_elementInstanceOfString_elementAddedToBeginning() {
         LinkedList list = new LinkedList();
 
-        list.addFirst("World");
+        list.add("World");
         list.addFirst("Hello");
 
         assertThat(list.get(0)).isEqualTo("Hello");
-        assertThat(list.get(1)).isEqualTo("World");
         assertThat(list.size()).isEqualTo(2);
     }
 
     @Test
-    public void addLast_addingElement_mustBeDone() {
+    public void addLast_elementInstanceOfString_elementAddedToTheEnd() {
         LinkedList list = new LinkedList();
 
-        list.addLast("Hello");
+        list.add("Hello");
         list.addLast("World");
 
-        assertThat(list.get(0)).isEqualTo("Hello");
         assertThat(list.get(1)).isEqualTo("World");
         assertThat(list.size()).isEqualTo(2);
     }
 
     @Test
-    public void addAll_addingCollection_mustBeDone() {
+    public void addAll_collectionHoldStrings_collectionElementsAdded() {
         LinkedList list = new LinkedList();
         ArrayList<String> collection = new ArrayList<>();
         collection.add("New");
@@ -242,7 +230,7 @@ public class LinkedListTest {
     }
 
     @Test
-    public void addAll_addingCollectionWithCorrectIndex_mustBeDone() {
+    public void addAll_supportIndex_collectionElementsAdded() {
         LinkedList list = new LinkedList();
         ArrayList<String> collection = new ArrayList<>();
         collection.add("New");
@@ -262,7 +250,7 @@ public class LinkedListTest {
 
         boolean result = list.checkForAction();
 
-        Assert.assertTrue(result);
+        assertThat(result).isTrue();
     }
 
     @Test(expectedExceptions = NoElementException.class)
@@ -273,7 +261,7 @@ public class LinkedListTest {
     }
 
     @Test
-    public void clear_clearList_shouldBeEmpty() {
+    public void clear_elementsDeleted_listShouldBeEmpty() {
         LinkedList list = new LinkedList();
         list.add("Hello");
         list.add("World");
@@ -281,27 +269,27 @@ public class LinkedListTest {
         list.clear();
 
         assertThat(list).doesNotContain("Hello", "World");
-        Assert.assertEquals(list.size(), 0);
+        assertThat(list.size()).isEqualTo(0);
     }
 
 
     @Test
-    public void contains_existingItem_shouldBeTrue() {
+    public void contains_elementExistInList_shouldBeTrue() {
         LinkedList list = new LinkedList();
         list.add("Hello");
 
         boolean result = list.contains("Hello");
 
-        Assert.assertTrue(result);
+        assertThat(result).isTrue();
     }
 
     @Test
-    public void contains_nonexistentItem_shouldBeFalse() {
+    public void contains_elementNotExistInList_shouldBeFalse() {
         LinkedList list = new LinkedList();
 
         boolean result = list.contains("Hello");
 
-        Assert.assertFalse(result);
+        assertThat(result).isFalse();
     }
 
     @Test
@@ -316,7 +304,7 @@ public class LinkedListTest {
 
         boolean result = favoriteDays.containsAll(holidays);
 
-        Assert.assertTrue(result);
+        assertThat(result).isTrue();
     }
 
     @Test
@@ -331,11 +319,11 @@ public class LinkedListTest {
 
         boolean result = numbers.containsAll(evenNumbers);
 
-        Assert.assertFalse(result);
+        assertThat(result).isFalse();
     }
 
     @Test
-    public void get_correctIndex_mustBeGot() {
+    public void get_supportedIndex_elementGot() {
         LinkedList list = new LinkedList();
         list.add("Hello");
 
@@ -352,21 +340,21 @@ public class LinkedListTest {
     }
 
     @Test(expectedExceptions = NoSuchElementException.class)
-    public void get_incorrectIndex_shouldThrowAnException() {
+    public void get_notSupportedIndex_shouldThrowAnException() {
         LinkedList list = new LinkedList();
 
         list.get(1);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void indexOf_objectNotInstanceofString_shouldThrowAnException() {
+    public void indexOf_objectNotInstanceOfString_shouldThrowAnException() {
         LinkedList list = new LinkedList();
 
         list.indexOf(1);
     }
 
     @Test
-    public void indexOf_existingItem_shouldReturnIndex() {
+    public void indexOf_elementExistInList_shouldReturnIndex() {
         LinkedList list = new LinkedList();
         list.add("Hello");
 
@@ -374,7 +362,7 @@ public class LinkedListTest {
     }
 
     @Test
-    public void indexOf_nonexistentItem_shouldReturnNegativeNumber() {
+    public void indexOf_elementNotExistInList_shouldReturnMinusOne() {
         LinkedList list = new LinkedList();
         list.add("Hello");
 
@@ -394,7 +382,7 @@ public class LinkedListTest {
 
         boolean result = list.isEmpty();
 
-        Assert.assertTrue(result);
+        assertThat(result).isTrue();
     }
 
     @Test
@@ -404,18 +392,18 @@ public class LinkedListTest {
 
         boolean result = list.isEmpty();
 
-        Assert.assertFalse(result);
+        assertThat(result).isFalse();
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void lastIndexOf_objectNotInstanceofString_shouldThrowAnException() {
+    public void lastIndexOf_objectNotInstanceOfString_shouldThrowAnException() {
         LinkedList list = new LinkedList();
 
         list.lastIndexOf(1);
     }
 
     @Test
-    public void lastIndexOf_existingItem_shouldReturnLastIndex() {
+    public void lastIndexOf_elementExistInList_shouldReturnLastIndex() {
         LinkedList list = new LinkedList();
         list.add("Run");
         list.add("Forrest");
@@ -425,7 +413,7 @@ public class LinkedListTest {
     }
 
     @Test
-    public void lastIndexOf_nonexistentItem_shouldReturnNegativeNumber() {
+    public void lastIndexOf_elementNorExistInList_shouldReturnMinusOne() {
         LinkedList list = new LinkedList();
         list.add("Hello");
 
@@ -440,17 +428,17 @@ public class LinkedListTest {
     }
 
     @Test
-    public void remove_existingItem_shouldBeTrue() {
+    public void remove_elementExistInList_removeIt() {
         LinkedList list = new LinkedList();
         list.add("Hello");
 
         boolean result = list.remove("Hello");
 
-        Assert.assertTrue(result);
+        assertThat(result).isTrue();
     }
 
     @Test(expectedExceptions = NoSuchElementException.class)
-    public void remove_nonexistentItem_shouldThrowAnException() {
+    public void remove_elementNotExistInList_shouldThrowAnException() {
         LinkedList list = new LinkedList();
         list.add("Hello");
 
@@ -465,7 +453,7 @@ public class LinkedListTest {
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void remove_incorrectType_shouldThrowAnException() {
+    public void remove_motSupportedType_shouldThrowAnException() {
         LinkedList list = new LinkedList();
         list.add("Hello");
 
@@ -473,7 +461,7 @@ public class LinkedListTest {
     }
 
     @Test
-    public void remove_correctIndex_shouldReturnRemovedValue() {
+    public void remove_supportedIndex_shouldReturnRemovedValue() {
         LinkedList list = new LinkedList();
         list.add("Hello");
         list.add("World");
@@ -481,7 +469,7 @@ public class LinkedListTest {
         String result = list.remove(1);
 
         assertThat(result).isEqualTo("World");
-        Assert.assertEquals(list.size(), 1);
+        assertThat(list.size()).isEqualTo(1);
     }
 
     @Test
@@ -496,8 +484,8 @@ public class LinkedListTest {
 
         boolean result = fruits.removeAll(vegetables);
 
-        Assert.assertTrue(result);
-        Assert.assertEquals(fruits.size(), 2);
+        assertThat(result).isTrue();
+        assertThat(fruits.size()).isEqualTo(2);
     }
 
     @Test
@@ -511,8 +499,8 @@ public class LinkedListTest {
 
         boolean result = fruits.removeAll(vegetables);
 
-        Assert.assertFalse(result);
-        Assert.assertEquals(fruits.size(), 2);
+        assertThat(result).isFalse();
+        assertThat(fruits.size()).isEqualTo(2);
     }
 
     @Test
@@ -527,8 +515,8 @@ public class LinkedListTest {
 
         boolean result = people.retainAll(friends);
 
-        Assert.assertTrue(result);
-        Assert.assertEquals(people.size(), 2);
+        assertThat(result).isTrue();
+        assertThat(people.size()).isEqualTo(2);
     }
 
     @Test
@@ -542,12 +530,12 @@ public class LinkedListTest {
 
         boolean result = friends.retainAll(people);
 
-        Assert.assertFalse(result);
-        Assert.assertEquals(friends.size(), 2);
+        assertThat(result).isFalse();
+        assertThat(friends.size()).isEqualTo(2);
     }
 
     @Test
-    public void set_setValue_shouldReturnPreviouslyValue() {
+    public void set_supportedIndex_shouldReturnPreviouslyValue() {
         LinkedList list = new LinkedList();
         list.add("Hello");
         list.add("World");
@@ -559,7 +547,7 @@ public class LinkedListTest {
     }
 
     @Test
-    public void toArray_gettingTheObjectsArray_mustBeGot() {
+    public void toArray_gettingTheObjectsArray_objectsArrayGot() {
         LinkedList colors = new LinkedList();
         colors.add("green");
         colors.add("yellow");
@@ -607,8 +595,8 @@ public class LinkedListTest {
         assertThat(newArray.length).isEqualTo(4);
     }
 
-    @AfterTest
-    public void iterator_gettingIterator_mustBeDone() {
+    @Test
+    public void iterator_gettingIterator_iteratorGot() {
         LinkedList list = new LinkedList();
         list.add("1");
         list.add("2");
@@ -622,8 +610,8 @@ public class LinkedListTest {
         assertThat(iterator.next()).isEqualTo("2");
     }
 
-    @AfterTest
-    public void listIterator_gettingListIterator_mustBeGot() {
+    @Test
+    public void listIterator_gettingListIterator_ListIteratorGot() {
         LinkedList list = new LinkedList();
         list.add("1");
         list.add("2");
@@ -637,8 +625,8 @@ public class LinkedListTest {
         assertThat(listIterator.next()).isEqualTo("2");
     }
 
-    @AfterTest
-    public void listIterator_withCorrectIndex_mustBeGot() {
+    @Test
+    public void listIterator_supportedIndex_ListIteratorGot() {
         LinkedList list = new LinkedList();
         list.add("1");
         list.add("2");
@@ -650,8 +638,8 @@ public class LinkedListTest {
         assertThat(listIterator.next()).isEqualTo("2");
     }
 
-    @AfterTest
-    public void subList_withCorrectIndexes_mustBeGot() {
+    @Test
+    public void subList_supportedIndexes_subListGot() {
         LinkedList daysOfTheWeek = new LinkedList();
         daysOfTheWeek.add("Monday");
         daysOfTheWeek.add("Tuesday");
@@ -669,15 +657,11 @@ public class LinkedListTest {
     }
 
     @Test(expectedExceptions = NoSuchElementException.class)
-    public void subList_withIncorrectIndex_shouldThrowAnException() {
+    public void subList_notSupportedIndex_shouldThrowAnException() {
         LinkedList list = new LinkedList();
         list.add("Hello");
 
         List<String> list2 = list.subList(5, 6);
     }
 
-    @AfterTest
-    public void afterTest() {
-        System.out.println("All tests passed");
-    }
 }
