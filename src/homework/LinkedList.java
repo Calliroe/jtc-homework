@@ -78,6 +78,7 @@ public class LinkedList implements List<String> {
 
     @Override
     public void clear() {
+        if (size == 0) return;
         head = tail = null;
         size = 0;
     }

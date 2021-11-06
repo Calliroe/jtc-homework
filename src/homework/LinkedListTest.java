@@ -7,7 +7,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class LinkedListTest {
 
     @Test
-    public void equals_equalityWithNullTest_shouldBeFalse() {
+    public void equals_incomingParameterIsNull_shouldReturnFalse() {
         LinkedList list = new LinkedList();
 
         boolean result = list.equals(null);
@@ -16,7 +16,7 @@ public class LinkedListTest {
     }
 
     @Test
-    public void equals_reflexivityTest_shouldBeTrue() {
+    public void equals_incomingParameterIsTheSameObject_shouldReturnTrue() {
         LinkedList list = new LinkedList();
         LinkedList list2 = list;
 
@@ -26,7 +26,7 @@ public class LinkedListTest {
     }
 
     @Test
-    public void equals_symmetryTest_shouldBeTrue() {
+    public void equals_theSymmetryConditionIsMet_shouldReturnTrue() {
         LinkedList list = new LinkedList();
         LinkedList list2 = new LinkedList();
         list.add("Hello");
@@ -40,7 +40,7 @@ public class LinkedListTest {
     }
 
     @Test
-    public void equals_transitivityTest_shouldBeTrue() {
+    public void equals_TheTransitivityConditionIsMet_shouldReturnTrue() {
         LinkedList list = new LinkedList();
         LinkedList list2 = new LinkedList();
         LinkedList list3 = new LinkedList();
@@ -58,7 +58,7 @@ public class LinkedListTest {
     }
 
     @Test
-    public void equals_consistencyTest_shouldBeTrue() {
+    public void equals_objectsFieldsDidNotChange_shouldReturnTrue() {
         LinkedList list = new LinkedList();
         LinkedList list2 = new LinkedList();
         list.add("Hello");
@@ -72,9 +72,9 @@ public class LinkedListTest {
     }
 
     @Test
-    public void equals_objectNotInstanceOfThis_shouldBeFalse() {
+    public void equals_incomingParameterNotInstanceOfLinkedList_shouldReturnFalse() {
         LinkedList list = new LinkedList();
-        java.util.LinkedList<String> list2 = new java.util.LinkedList<>();
+        ArrayList<String> list2 = new ArrayList<>();
 
         boolean result = list.equals(list2);
 
@@ -82,7 +82,7 @@ public class LinkedListTest {
     }
 
     @Test
-    public void equals_objectFieldsAreEqual_shouldBeTrue() {
+    public void equals_parameterFieldsAreEqualToObjectFields_shouldReturnTrue() {
         LinkedList list = new LinkedList();
         LinkedList list2 = new LinkedList();
         list.add("Hello");
@@ -96,7 +96,7 @@ public class LinkedListTest {
     }
 
     @Test
-    public void equals_objectElementsAreNotEqual_shouldBeFalse() {
+    public void equals_parameterItemsAreNotEqualToListItems_shouldReturnFalse() {
         LinkedList list = new LinkedList();
         LinkedList list2 = new LinkedList();
         list.add("Hello");
@@ -110,7 +110,7 @@ public class LinkedListTest {
     }
 
     @Test
-    public void equals_objectsSizesAreNotEqual_shouldBeFalse() {
+    public void equals_parameterSizeIsNotEqualToListSize_shouldReturnFalse() {
         LinkedList list = new LinkedList();
         list.add("Hello");
         LinkedList list2 = new LinkedList();
@@ -121,7 +121,7 @@ public class LinkedListTest {
     }
 
     @Test
-    public void hashcode_theSameObject_shouldBeEqual() {
+    public void hashcode_incomingParameterIsTheSameObject_shouldBeEqual() {
         LinkedList list = new LinkedList();
         LinkedList list2 = list;
 
@@ -132,7 +132,7 @@ public class LinkedListTest {
     }
 
     @Test
-    public void hashcode_twoEqualObjects_shouldBeEqual() {
+    public void hashcode_parameterItemsAreEqualToListItems_shouldBeEqual() {
         LinkedList list = new LinkedList();
         LinkedList list2 = new LinkedList();
         list.add("Hello");
@@ -147,7 +147,7 @@ public class LinkedListTest {
     }
 
     @Test
-    public void hashcode_consistencyTest_shouldBeEqual() {
+    public void hashcode_listFieldsDidNotChange_shouldBeEqual() {
         LinkedList list = new LinkedList();
         list.add("Hello");
 
@@ -158,20 +158,17 @@ public class LinkedListTest {
     }
 
     @Test
-    public void toString_matchingFields_shouldMatch() {
+    public void toString_itemsAreDisplayedAccordingToTheOrderTheyWereAdded_shouldBeEqual() {
         LinkedList list = new LinkedList();
-        LinkedList list2 = new LinkedList();
         list.add("One");
-        list2.add("One");
-        list2.add("Two");
-        list2.add("Three");
+        list.add("Two");
+        list.add("Three");
 
-        assertThat(list.toString()).isEqualTo("[ One ]");
-        assertThat(list2.toString()).isEqualTo("[ One  Two  Three ]");
+        assertThat(list.toString()).isEqualTo("[ One  Two  Three ]");
     }
 
     @Test
-    public void add_elementInstanceOfString_elementAdded() {
+    public void add_incomingParameterInstanceOfString_shouldReturnTrueAndElementAdded() {
         LinkedList list = new LinkedList();
 
         boolean result = list.add("Hello");
@@ -182,7 +179,7 @@ public class LinkedListTest {
     }
 
     @Test
-    public void add_supportedIndex_elementAdded() {
+    public void add_indexIsBetweenZeroAndListSize_elementAdded() {
         LinkedList list = new LinkedList();
 
         list.add(0, "Two");
@@ -194,7 +191,7 @@ public class LinkedListTest {
     }
 
     @Test
-    public void addFirst_elementInstanceOfString_elementAddedToBeginning() {
+    public void addFirst_incomingParameterInstanceOfString_elementAddedToBeginning() {
         LinkedList list = new LinkedList();
 
         list.add("World");
@@ -205,7 +202,7 @@ public class LinkedListTest {
     }
 
     @Test
-    public void addLast_elementInstanceOfString_elementAddedToTheEnd() {
+    public void addLast_incomingParameterInstanceOfString_elementAddedToTheEnd() {
         LinkedList list = new LinkedList();
 
         list.add("Hello");
@@ -216,23 +213,26 @@ public class LinkedListTest {
     }
 
     @Test
-    public void addAll_collectionHoldStrings_collectionElementsAdded() {
+    public void addAll_collectionHoldStrings_collectionItemsAddedToTheEnd() {
         LinkedList list = new LinkedList();
         ArrayList<String> collection = new ArrayList<>();
+        list.add("list item");
         collection.add("New");
         collection.add("collection");
 
         list.addAll(collection);
 
-        assertThat(list.get(0)).isEqualTo("New");
-        assertThat(list.get(1)).isEqualTo("collection");
-        assertThat(list.size()).isEqualTo(2);
+        assertThat(list.get(0)).isEqualTo("list item");
+        assertThat(list.get(1)).isEqualTo("New");
+        assertThat(list.get(2)).isEqualTo("collection");
+        assertThat(list.size()).isEqualTo(3);
     }
 
     @Test
-    public void addAll_supportIndex_collectionElementsAdded() {
+    public void addAll_indexIsBetweenZeroAndListSize_collectionItemsAddedToIndexPosition() {
         LinkedList list = new LinkedList();
         ArrayList<String> collection = new ArrayList<>();
+        list.add("list item");
         collection.add("New");
         collection.add("collection");
 
@@ -240,11 +240,12 @@ public class LinkedListTest {
 
         assertThat(list.get(0)).isEqualTo("New");
         assertThat(list.get(1)).isEqualTo("collection");
-        assertThat(list.size()).isEqualTo(2);
+        assertThat(list.get(2)).isEqualTo("list item");
+        assertThat(list.size()).isEqualTo(3);
     }
 
     @Test
-    public void checkForAction_listIsNotEmpty_shouldBeTrue() {
+    public void checkForAction_listIsNotEmpty_shouldReturnTrue() {
         LinkedList list = new LinkedList();
         list.add("Hello");
 
@@ -261,7 +262,16 @@ public class LinkedListTest {
     }
 
     @Test
-    public void clear_elementsDeleted_listShouldBeEmpty() {
+    public void clear_listIsEmpty_listShouldBeEmpty() {
+        LinkedList list = new LinkedList();
+
+        list.clear();
+
+        assertThat(list.size()).isEqualTo(0);
+    }
+
+    @Test
+    public void clear_listIsNotEmpty_listShouldBeEmpty() {
         LinkedList list = new LinkedList();
         list.add("Hello");
         list.add("World");
@@ -274,7 +284,7 @@ public class LinkedListTest {
 
 
     @Test
-    public void contains_elementExistInList_shouldBeTrue() {
+    public void contains_itemExistsInList_shouldReturnTrue() {
         LinkedList list = new LinkedList();
         list.add("Hello");
 
@@ -284,16 +294,18 @@ public class LinkedListTest {
     }
 
     @Test
-    public void contains_elementNotExistInList_shouldBeFalse() {
+    public void contains_itemDoesNotExistInList_shouldReturnFalse() {
         LinkedList list = new LinkedList();
 
         boolean result = list.contains("Hello");
+        boolean result2 = list.contains(3);
 
         assertThat(result).isFalse();
+        assertThat(result2).isFalse();
     }
 
     @Test
-    public void containsAll_allElementsAreContained_shouldBeTrue() {
+    public void containsAll_allCollectionItemsExistInList_shouldReturnTrue() {
         LinkedList favoriteDays = new LinkedList();
         ArrayList<String> holidays = new ArrayList<>();
         favoriteDays.add("Friday");
@@ -308,7 +320,7 @@ public class LinkedListTest {
     }
 
     @Test
-    public void containsAll_elementsAreNotContained_shouldBeFalse() {
+    public void containsAll_notAllCollectionItemsExistInList_shouldReturnFalse() {
         LinkedList numbers = new LinkedList();
         ArrayList<String> evenNumbers = new ArrayList<>();
         numbers.add("1");
@@ -323,7 +335,7 @@ public class LinkedListTest {
     }
 
     @Test
-    public void get_supportedIndex_elementGot() {
+    public void get_itemByTheIndexExistsInList_shouldReturnElement() {
         LinkedList list = new LinkedList();
         list.add("Hello");
 
@@ -333,28 +345,28 @@ public class LinkedListTest {
     }
 
     @Test(expectedExceptions = NoSuchElementException.class)
-    public void get_negativeIndex_shouldThrowAnException() {
+    public void get_indexIsNegativeNumber_shouldThrowAnException() {
         LinkedList list = new LinkedList();
 
         list.get(-1);
     }
 
     @Test(expectedExceptions = NoSuchElementException.class)
-    public void get_notSupportedIndex_shouldThrowAnException() {
+    public void get_itemByTheIndexDoesNotExistInList_shouldThrowAnException() {
         LinkedList list = new LinkedList();
 
         list.get(1);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void indexOf_objectNotInstanceOfString_shouldThrowAnException() {
+    public void indexOf_incomingParameterNotInstanceOfString_shouldThrowAnException() {
         LinkedList list = new LinkedList();
 
         list.indexOf(1);
     }
 
     @Test
-    public void indexOf_elementExistInList_shouldReturnIndex() {
+    public void indexOf_itemExistsInList_shouldReturnIndex() {
         LinkedList list = new LinkedList();
         list.add("Hello");
 
@@ -362,7 +374,7 @@ public class LinkedListTest {
     }
 
     @Test
-    public void indexOf_elementNotExistInList_shouldReturnMinusOne() {
+    public void indexOf_itemDoesNotExistInList_shouldReturnMinusOne() {
         LinkedList list = new LinkedList();
         list.add("Hello");
 
@@ -377,7 +389,7 @@ public class LinkedListTest {
     }
 
     @Test
-    public void isEmpty_listIsEmpty_shouldBeTrue() {
+    public void isEmpty_listIsEmpty_shouldReturnTrue() {
         LinkedList list = new LinkedList();
 
         boolean result = list.isEmpty();
@@ -386,7 +398,7 @@ public class LinkedListTest {
     }
 
     @Test
-    public void isEmpty_listIsNotEmpty_shouldBeFalse() {
+    public void isEmpty_listIsNotEmpty_shouldReturnFalse() {
         LinkedList list = new LinkedList();
         list.add("Hello");
 
@@ -396,14 +408,14 @@ public class LinkedListTest {
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void lastIndexOf_objectNotInstanceOfString_shouldThrowAnException() {
+    public void lastIndexOf_incomingParameterNotInstanceOfString_shouldThrowAnException() {
         LinkedList list = new LinkedList();
 
         list.lastIndexOf(1);
     }
 
     @Test
-    public void lastIndexOf_elementExistInList_shouldReturnLastIndex() {
+    public void lastIndexOf_itemExistsInList_shouldReturnLastIndex() {
         LinkedList list = new LinkedList();
         list.add("Run");
         list.add("Forrest");
@@ -413,7 +425,7 @@ public class LinkedListTest {
     }
 
     @Test
-    public void lastIndexOf_elementNorExistInList_shouldReturnMinusOne() {
+    public void lastIndexOf_itemDoesNotExistInList_shouldReturnMinusOne() {
         LinkedList list = new LinkedList();
         list.add("Hello");
 
@@ -428,17 +440,18 @@ public class LinkedListTest {
     }
 
     @Test
-    public void remove_elementExistInList_removeIt() {
+    public void remove_itemExistsInList_shouldReturnTrueAndRemoveIt() {
         LinkedList list = new LinkedList();
         list.add("Hello");
 
         boolean result = list.remove("Hello");
 
         assertThat(result).isTrue();
+        assertThat(list.size()).isEqualTo(0);
     }
 
     @Test(expectedExceptions = NoSuchElementException.class)
-    public void remove_elementNotExistInList_shouldThrowAnException() {
+    public void remove_itemDoesNotExistInList_shouldThrowAnException() {
         LinkedList list = new LinkedList();
         list.add("Hello");
 
@@ -453,7 +466,7 @@ public class LinkedListTest {
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void remove_motSupportedType_shouldThrowAnException() {
+    public void remove_incomingParameterNotInstanceOfStringAndListIsNotEmpty_shouldThrowAnException() {
         LinkedList list = new LinkedList();
         list.add("Hello");
 
@@ -461,7 +474,7 @@ public class LinkedListTest {
     }
 
     @Test
-    public void remove_supportedIndex_shouldReturnRemovedValue() {
+    public void remove_itemByTheIndexExistsInList_shouldReturnRemovedValueAndRemoveIt() {
         LinkedList list = new LinkedList();
         list.add("Hello");
         list.add("World");
@@ -473,7 +486,7 @@ public class LinkedListTest {
     }
 
     @Test
-    public void removeAll_listWasModified_shouldBeTrue() {
+    public void removeAll_listHasItemsContainedInTheCollection_shouldReturnTrueAndRemoveIt() {
         LinkedList fruits = new LinkedList();
         ArrayList<String> vegetables = new ArrayList<>();
         fruits.add("banana");
@@ -489,7 +502,7 @@ public class LinkedListTest {
     }
 
     @Test
-    public void removeAll_listWasNotModified_shouldBeFalse() {
+    public void removeAll_listHasNoItemsContainedInTheCollection_shouldReturnFalseAndListDidNotChange() {
         LinkedList fruits = new LinkedList();
         ArrayList<String> vegetables = new ArrayList<>();
         fruits.add("banana");
@@ -504,7 +517,7 @@ public class LinkedListTest {
     }
 
     @Test
-    public void retainAll_listWasModified_shouldBeTrue() {
+    public void retainAll_listHasItemsNotContainedInTheCollection_shouldReturnTrueAndRemoveIt() {
         LinkedList people = new LinkedList();
         ArrayList<String> friends = new ArrayList<>();
         people.add("Kianu");
@@ -520,7 +533,7 @@ public class LinkedListTest {
     }
 
     @Test
-    public void retainAll_listWasNotModified_shouldBeFalse() {
+    public void retainAll_listHasNoItemsNotContainedInTheCollection_shouldReturnFalseAndListDidNotChange() {
         LinkedList friends = new LinkedList();
         ArrayList<String> people = new ArrayList<>();
         friends.add("Kianu");
@@ -535,7 +548,7 @@ public class LinkedListTest {
     }
 
     @Test
-    public void set_supportedIndex_shouldReturnPreviouslyValue() {
+    public void set_itemByTheIndexExistsInList_shouldReturnPreviouslyValueAndSetValue() {
         LinkedList list = new LinkedList();
         list.add("Hello");
         list.add("World");
@@ -547,7 +560,7 @@ public class LinkedListTest {
     }
 
     @Test
-    public void toArray_gettingTheObjectsArray_objectsArrayGot() {
+    public void toArray_listIsNotEmpty_shouldReturnObjectsArrayWithListItems() {
         LinkedList colors = new LinkedList();
         colors.add("green");
         colors.add("yellow");
@@ -560,7 +573,7 @@ public class LinkedListTest {
     }
 
     @Test
-    public void toArray_arrayLengthLessOrEqualsSize_shouldReturnOnlyListElements() {
+    public void toArray_incomingArrayLengthLessOrEqualsToListSize_shouldReturnOnlyListItems() {
         LinkedList colors = new LinkedList();
         String[] array = new String[2];
         colors.add("green");
@@ -577,7 +590,7 @@ public class LinkedListTest {
     }
 
     @Test
-    public void toArray_arrayLengthMoreThanSize_shouldReturnAllElements() {
+    public void toArray_incomingArrayLengthMoreThanListSize_shouldReturnAllItemsFromListThenNullThenArrayItems() {
         LinkedList colors = new LinkedList();
         String[] array = new String[4];
         colors.add("green");
@@ -596,7 +609,7 @@ public class LinkedListTest {
     }
 
     @Test
-    public void iterator_gettingIterator_iteratorGot() {
+    public void iterator_listIsNotEmpty_getIterator() {
         LinkedList list = new LinkedList();
         list.add("1");
         list.add("2");
@@ -611,7 +624,16 @@ public class LinkedListTest {
     }
 
     @Test
-    public void listIterator_gettingListIterator_ListIteratorGot() {
+    public void iterator_listIsEmpty_shouldReturnEmptyIterator() {
+        LinkedList list = new LinkedList();
+
+        Iterator<String> iterator = list.iterator();
+
+        assertThat(iterator.hasNext()).isFalse();
+    }
+
+    @Test
+    public void listIterator_listIsNotEmpty_getListIterator() {
         LinkedList list = new LinkedList();
         list.add("1");
         list.add("2");
@@ -626,7 +648,16 @@ public class LinkedListTest {
     }
 
     @Test
-    public void listIterator_supportedIndex_ListIteratorGot() {
+    public void listIterator_listIsEmpty_shouldReturnEmptyIterator() {
+        LinkedList list = new LinkedList();
+
+        ListIterator<String> listIterator = list.listIterator();
+
+        assertThat(listIterator.hasNext()).isFalse();
+    }
+
+    @Test
+    public void listIterator_itemByTheIndexExistsInList_getListIteratorFromTheIndexPosition() {
         LinkedList list = new LinkedList();
         list.add("1");
         list.add("2");
@@ -638,8 +669,17 @@ public class LinkedListTest {
         assertThat(listIterator.next()).isEqualTo("2");
     }
 
+    @Test(expectedExceptions = NullPointerException.class)
+    public void listIterator_itemByTheIndexDoesNotExistInList_shouldThrowAnException() {
+        LinkedList list = new LinkedList();
+        list.add("1");
+        list.add("2");
+
+        ListIterator<String> listIterator = list.listIterator(6);
+    }
+
     @Test
-    public void subList_supportedIndexes_subListGot() {
+    public void subList_itemsByTheIndexesExistInList_getSubList() {
         LinkedList daysOfTheWeek = new LinkedList();
         daysOfTheWeek.add("Monday");
         daysOfTheWeek.add("Tuesday");
@@ -657,7 +697,7 @@ public class LinkedListTest {
     }
 
     @Test(expectedExceptions = NoSuchElementException.class)
-    public void subList_notSupportedIndex_shouldThrowAnException() {
+    public void subList_itemByAnyOfTheIndexesNotExistInList_shouldThrowAnException() {
         LinkedList list = new LinkedList();
         list.add("Hello");
 
