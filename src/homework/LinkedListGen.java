@@ -165,7 +165,11 @@ public class LinkedListGen<E> implements List<E> {
     @Override
     public boolean remove (Object o) {
         checkForAction();
-        return !remove(indexOf(o) == -1);
+        if (contains(o)) {
+            remove(indexOf(o));
+            return true;
+        }
+        return false;
     }
 
     @Override
