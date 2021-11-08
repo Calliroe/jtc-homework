@@ -2,77 +2,72 @@ package homework;
 
 import java.util.*;
 
-public class LinkedList implements List<String> {
+public class LinkedList<E> implements List<E> {
 
-    private Element head;
-    private Element tail;
+    private Element<E> head;
+    private Element<E> tail;
     private int size = 0;
 
     public LinkedList() {
     }
 
     @Override
-    public boolean add(String item) {
+    public boolean add(E item) {
         addLast(item);
         return true;
     }
 
     @Override
-    public void add(int index, String item) {
+    public void add(int index, E item) {
         if (index == 0) addFirst(item);
         else if (index == size) addLast(item);
         else {
-            Element cursor = getElement(index);
-            Element newItem = new Element(item);
+            Element<E> cursor = getElement(index);
+            Element<E> newItem = new Element<>(cursor.prev, item, cursor);
             cursor.prev.next = newItem;
-            newItem.prev = cursor.prev;
             cursor.prev = newItem;
-            newItem.next = cursor;
             size++;
         }
     }
 
     @Override
-    public boolean addAll(Collection<? extends String> collection) {
-        for (String s : collection) {
-            addLast(s);
+    public boolean addAll(Collection<? extends E> collection) {
+        for (E element : collection) {
+            addLast(element);
         }
         return true;
     }
 
     @Override
-    public boolean addAll(int index, Collection<? extends String> collection) {
-        for (String s : collection) {
+    public boolean addAll(int index, Collection<? extends E> collection) {
+        for (E s : collection) {
             add(index++, s);
         }
         return true;
     }
 
-    public void addFirst(String item) {
+    public void addFirst(E item) {
         if (isEmpty()) {
-            head = tail = new Element(item);
+            head = tail = new Element<>(null, item, null);
         } else {
-            head.prev = new Element(item);
-            head.prev.next = head;
+            head.prev = new Element<>(null, item, head);
             head = head.prev;
         }
         size++;
     }
 
-    public void addLast(String item) {
+    public void addLast(E item) {
         if (isEmpty()) {
-            head = tail = new Element(item);
+            head = tail = new Element<>(null, item, null);
         } else {
-            tail.next = new Element(item);
-            tail.next.prev = tail;
+            tail.next = new Element<>(tail, item, null);
             tail = tail.next;
         }
         size++;
     }
 
-    public boolean checkForAction() {
+    public void checkForAction() {
         if (size == 0) throw new NoElementException();
-        return true;
     }
 
     @Override
@@ -84,9 +79,8 @@ public class LinkedList implements List<String> {
 
     @Override
     public boolean contains(Object obj) {
-        if (!(obj instanceof String)) return false;
-        for (String s : this) {
-            if (s.equals(obj)) return true;
+        for (E item : this) {
+            if (item.equals(obj)) return true;
         }
         return false;
     }
@@ -104,37 +98,41 @@ public class LinkedList implements List<String> {
         if (obj == null) return false;
         if (obj == this) return true;
         if (obj.getClass() != getClass()) return false;
-        LinkedList list = (LinkedList) obj;
+        LinkedList<?> list = (LinkedList<?>) obj;
         if (size != list.size) return false;
         if (!(size == 0)) {
-            for (Element l = list.head, element = head; ; l = l.next, element = element.next) {
-                if (!l.equals(element)) return false;
+            for (Element<?> l = list.head, element = head; ; l = l.next, element = element.next) {
+                if (!l.element.equals(element.element)) {
+                    return false;
+                }
                 if (l.next == null) return true;
             }
         } else return true;
     }
 
     @Override
-    public String get(int index) {
-        return getElement(index).data;
+    public E get(int index) {
+        return getElement(index).element;
     }
 
-    public Element getElement(int index) {
-        if (index < 0 || index >= size) throw new NoSuchElementException();
-        else {
-            int count = 0;
-            for (Element element = head; ; element = element.next) {
-                if (count++ == index) return element;
-            }
+    public Element<E> getElement(int index) {
+        checkIndex(index);
+        int count = 0;
+        for (Element<E> element = head; ; element = element.next) {
+            if (count++ == index) return element;
         }
+    }
+
+    public void checkIndex(int index) {
+        if (index < 0 || index >= size) throw new NoSuchElementException();
     }
 
     @Override
     public int hashCode() {
         int hash = 66;
         if (!(size == 0)) {
-            for (Element element = head; ; element = element.next) {
-                hash += element.hashCode();
+            for (Element<E> element = head; ; element = element.next) {
+                hash += element.element.hashCode();
                 if (element.next == null) return hash;
             }
         } else return hash;
@@ -142,11 +140,11 @@ public class LinkedList implements List<String> {
 
     @Override
     public int indexOf(Object obj) {
-        if (!(obj instanceof String)) throw new IllegalArgumentException("Requested type: String");
         if (isEmpty()) throw new NoElementException();
         int index = 0;
-        for (String s : this) {
-            if (s.equals(obj)) return index;
+        for (E t : this) {
+            if (t.getClass() != obj.getClass()) throw new IllegalArgumentException();
+            if (t.equals(obj)) return index;
             index++;
         }
         return -1;
@@ -159,32 +157,32 @@ public class LinkedList implements List<String> {
 
     @Override
     public int lastIndexOf(Object o) {
-        if (!(o instanceof String)) throw new IllegalArgumentException("Requested type: String");
         if (isEmpty()) throw new NoElementException();
         int index = size - 1;
-        for (Element e = tail; ; e = e.prev) {
-            if (e.data.equals(o)) return index;
+        for (Element<E> e = tail; ; e = e.prev) {
+            if (e.element.equals(o)) return index;
             if (e.prev != null) index--;
             else return -1;
         }
     }
 
     @Override
-    public boolean remove(Object o) {
-        if (checkForAction() && o instanceof String) {
+    public boolean remove (Object o) {
+        checkForAction();
+        if (contains(o)) {
             remove(indexOf(o));
             return true;
         }
-        throw new IllegalArgumentException("Requested type: String");
+        return false;
     }
 
     @Override
-    public String remove(int index) {
-        Element cursor = getElement(index);
-        String s = cursor.data;
+    public E remove(int index) {
+      Element<E> cursor = getElement(index);
+        E e = cursor.element;
         if (size == 1) {
             clear();
-            return s;
+            return e;
         }
         if (index == 0) {
             head = head.next;
@@ -197,15 +195,15 @@ public class LinkedList implements List<String> {
             cursor.next.prev = cursor.prev;
         }
         size--;
-        return s;
+        return e;
     }
 
     @Override
     public boolean removeAll(Collection<?> collection) {
         boolean modified = false;
-        for (Element item = head; item != null; item = item.next) {
-            if (collection.contains(item.data)) {
-                remove(item.data);
+        for (Element<E> item = head; item != null; item = item.next) {
+            if (collection.contains(item.element)) {
+                remove(item.element);
                 modified = true;
             }
         }
@@ -215,9 +213,9 @@ public class LinkedList implements List<String> {
     @Override
     public boolean retainAll(Collection<?> collection) {
         boolean modified = false;
-        for (Element item = head; item != null; item = item.next) {
-            if (!(collection.contains(item.data))) {
-                remove(item.data);
+        for (Element<E> item = head; item != null; item = item.next) {
+            if (!(collection.contains(item.element))) {
+                remove(item.element);
                 modified = true;
             }
         }
@@ -225,11 +223,10 @@ public class LinkedList implements List<String> {
     }
 
     @Override
-    public String set(int index, String item) {
-        String s = getElement(index).data;
-        getElement(index).data = item;
-        return s;
-
+    public E set(int index, E item) {
+        E e = getElement(index).element;
+        getElement(index).element = item;
+        return e;
     }
 
     @Override
@@ -241,8 +238,8 @@ public class LinkedList implements List<String> {
     public Object[] toArray() {
         Object[] obj = new Object[size];
         int count = 0;
-        for (String s : this) {
-            obj[count++] = s;
+        for (E t : this) {
+            obj[count++] = t;
         }
         return obj;
     }
@@ -254,7 +251,7 @@ public class LinkedList implements List<String> {
             array = (T[]) java.lang.reflect.Array.newInstance(array.getClass().getComponentType(), size);
         int i = 0;
         Object[] result = array;
-        for (Element item = head; item != null; item = item.next) result[i++] = item.data;
+        for (Element<E> item = head; item != null; item = item.next) result[i++] = item.element;
         if (array.length > size) array[size] = null;
         return array;
     }
@@ -262,74 +259,55 @@ public class LinkedList implements List<String> {
     @Override
     public String toString() {
         StringBuilder toStr = new StringBuilder("[");
-        for (String s : this) {
-            toStr.append(" ").append(s).append(" ");
+        for (E t : this) {
+            toStr.append(" ").append(t.toString()).append(" ");
         }
         toStr.append("]");
         return toStr.toString();
     }
 
     @Override
-    public Iterator<String> iterator() {
+    public Iterator<E> iterator() {
         return new ListItr(0);
     }
 
     @Override
-    public ListIterator<String> listIterator() {
+    public ListIterator<E> listIterator() {
         return new ListItr(0);
     }
 
     @Override
-    public ListIterator<String> listIterator(int index) {
+    public ListIterator<E> listIterator(int index) {
         if (!(index >= 0 && index <= size)) throw new NullPointerException();
         return new ListItr(index);
     }
 
     @Override
-    public List<String> subList(int fromIndex, int toIndex) {
+    public List<E> subList(int fromIndex, int toIndex) {
         if (!(fromIndex >= 0 && fromIndex <= toIndex && toIndex < size))
             throw new NoSuchElementException("Incorrect indexes");
-        homework.LinkedList list = new homework.LinkedList();
+        LinkedList<E> list = new LinkedList<>();
         for (int i = fromIndex; i <= toIndex; i++) {
-            list.add(getElement(i).data);
+            list.add(get(i));
         }
         return list;
     }
 
-    public static class Element {
-        String data;
-        Element next;
-        Element prev;
+    static class Element<T> {
+        T element;
+        Element<T> next;
+        Element<T> prev;
 
-        public Element() {
-        }
-
-        public Element(String data) {
-            this.data = data;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o.getClass() != getClass()) return false;
-            Element element = (Element) o;
-            return Objects.equals(data, element.data);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(data);
-        }
-
-        @Override
-        public String toString() {
-            return data;
+        public Element(Element<T> prev, T element, Element<T> next) {
+            this.element = element;
+            this.next = next;
+            this.prev = prev;
         }
     }
 
-    class ListItr implements ListIterator<String> {
-        private Element current;
-        private Element next;
+    class ListItr implements ListIterator<E> {
+        private Element<E> current;
+        private Element<E> next;
         private int nextIndex;
 
         ListItr(int index) {
@@ -341,23 +319,23 @@ public class LinkedList implements List<String> {
             return nextIndex < size;
         }
 
-        public String next() {
+        public E next() {
             if (!hasNext()) throw new NoSuchElementException();
             current = next;
             next = next.next;
             nextIndex++;
-            return current.data;
+            return current.element;
         }
 
         public boolean hasPrevious() {
             return nextIndex > 0;
         }
 
-        public String previous() {
+        public E previous() {
             if (!hasPrevious()) throw new NoSuchElementException();
             current = next = (next == null) ? tail : next.prev;
             nextIndex--;
-            return current.data;
+            return current.element;
         }
 
         public int nextIndex() {
@@ -370,8 +348,8 @@ public class LinkedList implements List<String> {
 
         public void remove() {
             if (current == null) throw new IllegalStateException();
-            Element willNext = current.next;
-            homework.LinkedList.this.remove(current);
+            Element<E> willNext = current.next;
+            LinkedList.this.remove(current);
             if (next == current)
                 next = willNext;
             else
@@ -379,15 +357,15 @@ public class LinkedList implements List<String> {
             current = null;
         }
 
-        public void set(String e) {
+        public void set(E e) {
             if (current == null) throw new IllegalStateException();
-            current.data = e;
+            current.element = e;
         }
 
-        public void add(String e) {
+        public void add(E e) {
             current = null;
-            if (next == null) homework.LinkedList.this.add(size, e);
-            else homework.LinkedList.this.add((nextIndex), e);
+            if (next == null) LinkedList.this.add(size, e);
+            else LinkedList.this.add((nextIndex), e);
             nextIndex++;
         }
     }
