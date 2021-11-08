@@ -96,12 +96,14 @@ public class LinkedListGen<E> implements List<E> {
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (!(obj instanceof LinkedListGen<?>)) return false;
+        if (obj.getClass() != getClass()) return false;
         LinkedListGen<?> list = (LinkedListGen<?>) obj;
         if (size != list.size) return false;
         if (!(size == 0)) {
             for (Element<?> l = list.head, element = head; ; l = l.next, element = element.next) {
-                if (!l.equals(element)) return false;
+                if (!l.element.equals(element.element)) {
+                    return false;
+                }
                 if (l.next == null) return true;
             }
         } else return true;
