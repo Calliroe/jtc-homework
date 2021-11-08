@@ -102,9 +102,10 @@ public class LinkedList implements List<String> {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (!(obj instanceof homework.LinkedList)) return false;
-        homework.LinkedList list = (homework.LinkedList) obj;
+        if (obj == null) return false;
+        if (obj == this) return true;
+        if (obj.getClass() != getClass()) return false;
+        LinkedList list = (LinkedList) obj;
         if (size != list.size) return false;
         if (!(size == 0)) {
             for (Element l = list.head, element = head; ; l = l.next, element = element.next) {
@@ -229,6 +230,7 @@ public class LinkedList implements List<String> {
         String s = getElement(index).data;
         getElement(index).data = item;
         return s;
+
     }
 
     @Override
@@ -309,7 +311,7 @@ public class LinkedList implements List<String> {
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
-            if (!(o instanceof Element)) return false;
+            if (o.getClass() != getClass()) return false;
             Element element = (Element) o;
             return Objects.equals(data, element.data);
         }
