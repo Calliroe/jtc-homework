@@ -249,6 +249,7 @@ public class LinkedList implements List<String> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <T> T[] toArray(T[] array) throws IllegalArgumentException {
         if (array.length < size)
             array = (T[]) java.lang.reflect.Array.newInstance(array.getClass().getComponentType(), size);

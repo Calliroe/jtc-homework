@@ -95,7 +95,8 @@ public class LinkedListGen<E> implements List<E> {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
+        if (obj == null) return false;
+        if (obj == this) return true;
         if (obj.getClass() != getClass()) return false;
         LinkedListGen<?> list = (LinkedListGen<?>) obj;
         if (size != list.size) return false;
@@ -243,6 +244,7 @@ public class LinkedListGen<E> implements List<E> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <T> T[] toArray(T[] array) throws IllegalArgumentException {
         if (array.length < size)
             array = (T[]) java.lang.reflect.Array.newInstance(array.getClass().getComponentType(), size);
