@@ -1,14 +1,16 @@
 package homework;
 
 import org.testng.annotations.Test;
+
 import java.util.*;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class LinkedListTest {
 
     @Test
     public void equals_incomingParameterIsNull_shouldReturnFalse() {
-        LinkedList list = new LinkedList();
+        LinkedList<Number> list = new LinkedList<>();
 
         boolean result = list.equals(null);
 
@@ -17,8 +19,8 @@ public class LinkedListTest {
 
     @Test
     public void equals_incomingParameterIsTheSameObject_shouldReturnTrue() {
-        LinkedList list = new LinkedList();
-        LinkedList list2 = list;
+        LinkedList<Integer> list = new LinkedList<>();
+        LinkedList<Integer> list2 = list;
 
         boolean result = list.equals(list2);
 
@@ -27,8 +29,8 @@ public class LinkedListTest {
 
     @Test
     public void equals_theSymmetryConditionIsMet_shouldReturnTrue() {
-        LinkedList list = new LinkedList();
-        LinkedList list2 = new LinkedList();
+        LinkedList<String> list = new LinkedList<>();
+        LinkedList<String> list2 = new LinkedList<>();
         list.add("Hello");
         list2.add("Hello");
 
@@ -41,9 +43,9 @@ public class LinkedListTest {
 
     @Test
     public void equals_TheTransitivityConditionIsMet_shouldReturnTrue() {
-        LinkedList list = new LinkedList();
-        LinkedList list2 = new LinkedList();
-        LinkedList list3 = new LinkedList();
+        LinkedList<String> list = new LinkedList<>();
+        LinkedList<String> list2 = new LinkedList<>();
+        LinkedList<String> list3 = new LinkedList<>();
         list.add("Hello");
         list2.add("Hello");
         list3.add("Hello");
@@ -59,8 +61,8 @@ public class LinkedListTest {
 
     @Test
     public void equals_objectsFieldsDidNotChange_shouldReturnTrue() {
-        LinkedList list = new LinkedList();
-        LinkedList list2 = new LinkedList();
+        LinkedList<String> list = new LinkedList<>();
+        LinkedList<String> list2 = new LinkedList<>();
         list.add("Hello");
         list2.add("Hello");
 
@@ -73,7 +75,7 @@ public class LinkedListTest {
 
     @Test
     public void equals_incomingParameterNotInstanceOfLinkedList_shouldReturnFalse() {
-        LinkedList list = new LinkedList();
+        LinkedList<String> list = new LinkedList<>();
         ArrayList<String> list2 = new ArrayList<>();
 
         boolean result = list.equals(list2);
@@ -83,8 +85,8 @@ public class LinkedListTest {
 
     @Test
     public void equals_parameterFieldsAreEqualToObjectFields_shouldReturnTrue() {
-        LinkedList list = new LinkedList();
-        LinkedList list2 = new LinkedList();
+        LinkedList<String> list = new LinkedList<>();
+        LinkedList<String> list2 = new LinkedList<>();
         list.add("Hello");
         list.add("World");
         list2.add("Hello");
@@ -97,12 +99,12 @@ public class LinkedListTest {
 
     @Test
     public void equals_parameterItemsAreNotEqualToListItems_shouldReturnFalse() {
-        LinkedList list = new LinkedList();
-        LinkedList list2 = new LinkedList();
+        LinkedList<String> list = new LinkedList<>();
+        LinkedList<Double> list2 = new LinkedList<>();
         list.add("Hello");
         list.add("World");
-        list2.add("Hello");
-        list2.add("Me");
+        list2.add(3.14);
+        list2.add(2.72);
 
         boolean result = list.equals(list2);
 
@@ -111,9 +113,9 @@ public class LinkedListTest {
 
     @Test
     public void equals_parameterSizeIsNotEqualToListSize_shouldReturnFalse() {
-        LinkedList list = new LinkedList();
-        list.add("Hello");
-        LinkedList list2 = new LinkedList();
+        LinkedList<Integer> list = new LinkedList<>();
+        list.add(6);
+        LinkedList<Integer> list2 = new LinkedList<>();
 
         boolean result = list.equals(list2);
 
@@ -122,8 +124,8 @@ public class LinkedListTest {
 
     @Test
     public void hashcode_incomingParameterIsTheSameObject_shouldBeEqual() {
-        LinkedList list = new LinkedList();
-        LinkedList list2 = list;
+        LinkedList<Object> list = new LinkedList<>();
+        LinkedList<Object> list2 = list;
 
         int result = list.hashCode();
         int result2 = list2.hashCode();
@@ -133,8 +135,8 @@ public class LinkedListTest {
 
     @Test
     public void hashcode_parameterItemsAreEqualToListItems_shouldBeEqual() {
-        LinkedList list = new LinkedList();
-        LinkedList list2 = new LinkedList();
+        LinkedList<String> list = new LinkedList<>();
+        LinkedList<String> list2 = new LinkedList<>();
         list.add("Hello");
         list.add("World");
         list2.add("Hello");
@@ -148,7 +150,7 @@ public class LinkedListTest {
 
     @Test
     public void hashcode_listFieldsDidNotChange_shouldBeEqual() {
-        LinkedList list = new LinkedList();
+        LinkedList<String> list = new LinkedList<>();
         list.add("Hello");
 
         int result = list.hashCode();
@@ -159,28 +161,28 @@ public class LinkedListTest {
 
     @Test
     public void toString_itemsAreDisplayedAccordingToTheOrderTheyWereAdded_shouldBeEqual() {
-        LinkedList list = new LinkedList();
-        list.add("One");
-        list.add("Two");
-        list.add("Three");
+        LinkedList<Number> list = new LinkedList<>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
 
-        assertThat(list.toString()).isEqualTo("[ One  Two  Three ]");
+        assertThat(list.toString()).isEqualTo("[ 1  2  3 ]");
     }
 
     @Test
-    public void add_incomingParameterInstanceOfString_shouldReturnTrueAndElementAdded() {
-        LinkedList list = new LinkedList();
+    public void add_incomingParameterInstanceOfRequiredType_shouldReturnTrueAndElementAdded() {
+        LinkedList<Number> list = new LinkedList<>();
 
-        boolean result = list.add("Hello");
+        boolean result = list.add(3.14);
 
         assertThat(result).isTrue();
-        assertThat(list).contains("Hello");
+        assertThat(list).contains(3.14);
         assertThat(list.size()).isEqualTo(1);
     }
 
     @Test
     public void add_indexIsBetweenZeroAndListSize_elementAdded() {
-        LinkedList list = new LinkedList();
+        LinkedList<String> list = new LinkedList<>();
 
         list.add(0, "Two");
         list.add(1, "Three");
@@ -191,19 +193,19 @@ public class LinkedListTest {
     }
 
     @Test
-    public void addFirst_incomingParameterInstanceOfString_elementAddedToBeginning() {
-        LinkedList list = new LinkedList();
+    public void addFirst_incomingParameterInstanceOfRequiredType_elementAddedToBeginning() {
+        LinkedList<Object> list = new LinkedList<>();
 
-        list.add("World");
-        list.addFirst("Hello");
+        list.add("Two");
+        list.addFirst(1);
 
-        assertThat(list.get(0)).isEqualTo("Hello");
+        assertThat(list.get(0)).isEqualTo(1);
         assertThat(list.size()).isEqualTo(2);
     }
 
     @Test
-    public void addLast_incomingParameterInstanceOfString_elementAddedToTheEnd() {
-        LinkedList list = new LinkedList();
+    public void addLast_incomingParameterInstanceOfRequiredType_elementAddedToTheEnd() {
+        LinkedList<String> list = new LinkedList<>();
 
         list.add("Hello");
         list.addLast("World");
@@ -213,8 +215,8 @@ public class LinkedListTest {
     }
 
     @Test
-    public void addAll_collectionHoldStrings_collectionItemsAddedToTheEnd() {
-        LinkedList list = new LinkedList();
+    public void addAll_collectionHoldRequiredType_collectionItemsAddedToTheEnd() {
+        LinkedList<String> list = new LinkedList<>();
         ArrayList<String> collection = new ArrayList<>();
         list.add("list item");
         collection.add("New");
@@ -230,7 +232,7 @@ public class LinkedListTest {
 
     @Test
     public void addAll_indexIsBetweenZeroAndListSize_collectionItemsAddedToIndexPosition() {
-        LinkedList list = new LinkedList();
+        LinkedList<String> list = new LinkedList<>();
         ArrayList<String> collection = new ArrayList<>();
         list.add("list item");
         collection.add("New");
@@ -245,25 +247,23 @@ public class LinkedListTest {
     }
 
     @Test
-    public void checkForAction_listIsNotEmpty_shouldReturnTrue() {
-        LinkedList list = new LinkedList();
+    public void checkForAction_listIsNotEmpty_shouldNotThrowAnException() {
+        LinkedList<String> list = new LinkedList<>();
         list.add("Hello");
 
-        boolean result = list.checkForAction();
-
-        assertThat(result).isTrue();
+        list.checkForAction();
     }
 
     @Test(expectedExceptions = NoElementException.class)
     public void checkForAction_listIsEmpty_shouldThrowAnException() {
-        LinkedList list = new LinkedList();
+        LinkedList<Double> list = new LinkedList<>();
 
         list.checkForAction();
     }
 
     @Test
     public void clear_listIsEmpty_listShouldBeEmpty() {
-        LinkedList list = new LinkedList();
+        LinkedList<Double> list = new LinkedList<>();
 
         list.clear();
 
@@ -272,20 +272,20 @@ public class LinkedListTest {
 
     @Test
     public void clear_listIsNotEmpty_listShouldBeEmpty() {
-        LinkedList list = new LinkedList();
-        list.add("Hello");
-        list.add("World");
+        LinkedList<Integer> list = new LinkedList<>();
+        list.add(1);
+        list.add(2);
 
         list.clear();
 
-        assertThat(list).doesNotContain("Hello", "World");
+        assertThat(list).doesNotContain(1, 2);
         assertThat(list.size()).isEqualTo(0);
     }
 
 
     @Test
     public void contains_itemExistsInList_shouldReturnTrue() {
-        LinkedList list = new LinkedList();
+        LinkedList<String> list = new LinkedList<>();
         list.add("Hello");
 
         boolean result = list.contains("Hello");
@@ -295,7 +295,8 @@ public class LinkedListTest {
 
     @Test
     public void contains_itemDoesNotExistInList_shouldReturnFalse() {
-        LinkedList list = new LinkedList();
+        LinkedList<String> list = new LinkedList<>();
+        list.add("Hi");
 
         boolean result = list.contains("Hello");
         boolean result2 = list.contains(3);
@@ -306,7 +307,7 @@ public class LinkedListTest {
 
     @Test
     public void containsAll_allCollectionItemsExistInList_shouldReturnTrue() {
-        LinkedList favoriteDays = new LinkedList();
+        LinkedList<String> favoriteDays = new LinkedList<>();
         ArrayList<String> holidays = new ArrayList<>();
         favoriteDays.add("Friday");
         favoriteDays.add("Saturday");
@@ -321,13 +322,13 @@ public class LinkedListTest {
 
     @Test
     public void containsAll_notAllCollectionItemsExistInList_shouldReturnFalse() {
-        LinkedList numbers = new LinkedList();
-        ArrayList<String> evenNumbers = new ArrayList<>();
-        numbers.add("1");
-        numbers.add("2");
-        numbers.add("3");
-        evenNumbers.add("2");
-        evenNumbers.add("4");
+        LinkedList<Integer> numbers = new LinkedList<>();
+        ArrayList<Integer> evenNumbers = new ArrayList<>();
+        numbers.add(1);
+        numbers.add(2);
+        numbers.add(3);
+        evenNumbers.add(2);
+        evenNumbers.add(4);
 
         boolean result = numbers.containsAll(evenNumbers);
 
@@ -336,7 +337,7 @@ public class LinkedListTest {
 
     @Test
     public void get_itemByTheIndexExistsInList_shouldReturnElement() {
-        LinkedList list = new LinkedList();
+        LinkedList<String> list = new LinkedList<>();
         list.add("Hello");
 
         String result = list.get(0);
@@ -346,28 +347,29 @@ public class LinkedListTest {
 
     @Test(expectedExceptions = NoSuchElementException.class)
     public void get_indexIsNegativeNumber_shouldThrowAnException() {
-        LinkedList list = new LinkedList();
+        LinkedList<String> list = new LinkedList<String>();
 
         list.get(-1);
     }
 
     @Test(expectedExceptions = NoSuchElementException.class)
     public void get_itemByTheIndexDoesNotExistInList_shouldThrowAnException() {
-        LinkedList list = new LinkedList();
+        LinkedList<String> list = new LinkedList<>();
 
         list.get(1);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void indexOf_incomingParameterNotInstanceOfString_shouldThrowAnException() {
-        LinkedList list = new LinkedList();
+    public void indexOf_incomingParameterNotInstanceOfRequiredType_shouldThrowAnException() {
+        LinkedList<String> list = new LinkedList<>();
+        list.add("Hello");
 
         list.indexOf(1);
     }
 
     @Test
     public void indexOf_itemExistsInList_shouldReturnIndex() {
-        LinkedList list = new LinkedList();
+        LinkedList<String> list = new LinkedList<>();
         list.add("Hello");
 
         assertThat(list.indexOf("Hello")).isEqualTo(0);
@@ -375,7 +377,7 @@ public class LinkedListTest {
 
     @Test
     public void indexOf_itemDoesNotExistInList_shouldReturnMinusOne() {
-        LinkedList list = new LinkedList();
+        LinkedList<Object> list = new LinkedList<>();
         list.add("Hello");
 
         assertThat(list.indexOf("World")).isEqualTo(-1);
@@ -383,14 +385,14 @@ public class LinkedListTest {
 
     @Test(expectedExceptions = NoElementException.class)
     public void indexOf_listIsEmpty_shouldThrowAnException() {
-        LinkedList list = new LinkedList();
+        LinkedList<String> list = new LinkedList<>();
 
         list.indexOf("Hello");
     }
 
     @Test
     public void isEmpty_listIsEmpty_shouldReturnTrue() {
-        LinkedList list = new LinkedList();
+        LinkedList<String> list = new LinkedList<>();
 
         boolean result = list.isEmpty();
 
@@ -399,7 +401,7 @@ public class LinkedListTest {
 
     @Test
     public void isEmpty_listIsNotEmpty_shouldReturnFalse() {
-        LinkedList list = new LinkedList();
+        LinkedList<String> list = new LinkedList<>();
         list.add("Hello");
 
         boolean result = list.isEmpty();
@@ -407,16 +409,9 @@ public class LinkedListTest {
         assertThat(result).isFalse();
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void lastIndexOf_incomingParameterNotInstanceOfString_shouldThrowAnException() {
-        LinkedList list = new LinkedList();
-
-        list.lastIndexOf(1);
-    }
-
     @Test
     public void lastIndexOf_itemExistsInList_shouldReturnLastIndex() {
-        LinkedList list = new LinkedList();
+        LinkedList<String> list = new LinkedList<>();
         list.add("Run");
         list.add("Forrest");
         list.add("Run");
@@ -426,7 +421,7 @@ public class LinkedListTest {
 
     @Test
     public void lastIndexOf_itemDoesNotExistInList_shouldReturnMinusOne() {
-        LinkedList list = new LinkedList();
+        LinkedList<String> list = new LinkedList<>();
         list.add("Hello");
 
         assertThat(list.lastIndexOf("World")).isEqualTo(-1);
@@ -434,14 +429,14 @@ public class LinkedListTest {
 
     @Test(expectedExceptions = NoElementException.class)
     public void lastIndexOf_listIsEmpty_shouldThrowAnException() {
-        LinkedList list = new LinkedList();
+        LinkedList<String> list = new LinkedList<>();
 
         list.lastIndexOf("Hello");
     }
 
     @Test
     public void remove_itemExistsInList_shouldReturnTrueAndRemoveIt() {
-        LinkedList list = new LinkedList();
+        LinkedList<String> list = new LinkedList<>();
         list.add("Hello");
 
         boolean result = list.remove("Hello");
@@ -450,32 +445,26 @@ public class LinkedListTest {
         assertThat(list.size()).isEqualTo(0);
     }
 
-    @Test(expectedExceptions = NoSuchElementException.class)
-    public void remove_itemDoesNotExistInList_shouldThrowAnException() {
-        LinkedList list = new LinkedList();
+    @Test
+    public void remove_itemDoesNotExistInList_shouldReturnFalse() {
+        LinkedList<String> list = new LinkedList<>();
         list.add("Hello");
 
-        list.remove("World");
+        boolean result = list.remove("World");
+
+        assertThat(result).isFalse();
     }
 
     @Test(expectedExceptions = NoElementException.class)
     public void remove_listIsEmpty_shouldThrowAnException() {
-        LinkedList list = new LinkedList();
+        LinkedList<String> list = new LinkedList<>();
 
         list.remove("Hello");
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void remove_incomingParameterNotInstanceOfStringAndListIsNotEmpty_shouldThrowAnException() {
-        LinkedList list = new LinkedList();
-        list.add("Hello");
-
-        list.remove(new Exception());
-    }
-
     @Test
     public void remove_itemByTheIndexExistsInList_shouldReturnRemovedValueAndRemoveIt() {
-        LinkedList list = new LinkedList();
+        LinkedList<String> list = new LinkedList<>();
         list.add("Hello");
         list.add("World");
 
@@ -487,7 +476,7 @@ public class LinkedListTest {
 
     @Test
     public void removeAll_listHasItemsContainedInTheCollection_shouldReturnTrueAndRemoveIt() {
-        LinkedList fruits = new LinkedList();
+        LinkedList<String> fruits = new LinkedList<>();
         ArrayList<String> vegetables = new ArrayList<>();
         fruits.add("banana");
         fruits.add("orange");
@@ -503,7 +492,7 @@ public class LinkedListTest {
 
     @Test
     public void removeAll_listHasNoItemsContainedInTheCollection_shouldReturnFalseAndListDidNotChange() {
-        LinkedList fruits = new LinkedList();
+        LinkedList<String> fruits = new LinkedList<>();
         ArrayList<String> vegetables = new ArrayList<>();
         fruits.add("banana");
         fruits.add("mango");
@@ -518,7 +507,7 @@ public class LinkedListTest {
 
     @Test
     public void retainAll_listHasItemsNotContainedInTheCollection_shouldReturnTrueAndRemoveIt() {
-        LinkedList people = new LinkedList();
+        LinkedList<String> people = new LinkedList<>();
         ArrayList<String> friends = new ArrayList<>();
         people.add("Kianu");
         people.add("Cillian");
@@ -534,7 +523,7 @@ public class LinkedListTest {
 
     @Test
     public void retainAll_listHasNoItemsNotContainedInTheCollection_shouldReturnFalseAndListDidNotChange() {
-        LinkedList friends = new LinkedList();
+        LinkedList <String> friends = new LinkedList<>();
         ArrayList<String> people = new ArrayList<>();
         friends.add("Kianu");
         friends.add("Jim");
@@ -549,7 +538,7 @@ public class LinkedListTest {
 
     @Test
     public void set_itemByTheIndexExistsInList_shouldReturnPreviouslyValueAndSetValue() {
-        LinkedList list = new LinkedList();
+        LinkedList<String> list = new LinkedList<>();
         list.add("Hello");
         list.add("World");
 
@@ -561,7 +550,7 @@ public class LinkedListTest {
 
     @Test
     public void toArray_listIsNotEmpty_shouldReturnObjectsArrayWithListItems() {
-        LinkedList colors = new LinkedList();
+        LinkedList<String> colors = new LinkedList<>();
         colors.add("green");
         colors.add("yellow");
 
@@ -574,7 +563,7 @@ public class LinkedListTest {
 
     @Test
     public void toArray_incomingArrayLengthLessOrEqualsToListSize_shouldReturnOnlyListItems() {
-        LinkedList colors = new LinkedList();
+        LinkedList<String> colors = new LinkedList<>();
         String[] array = new String[2];
         colors.add("green");
         colors.add("yellow");
@@ -591,7 +580,7 @@ public class LinkedListTest {
 
     @Test
     public void toArray_incomingArrayLengthMoreThanListSize_shouldReturnAllItemsFromListThenNullThenArrayItems() {
-        LinkedList colors = new LinkedList();
+        LinkedList<String> colors = new LinkedList<>();
         String[] array = new String[4];
         colors.add("green");
         colors.add("yellow");
@@ -610,22 +599,22 @@ public class LinkedListTest {
 
     @Test
     public void iterator_listIsNotEmpty_getIterator() {
-        LinkedList list = new LinkedList();
-        list.add("1");
-        list.add("2");
+        LinkedList<Integer> list = new LinkedList<>();
+        list.add(1);
+        list.add(2);
 
-        Iterator<String> iterator = list.iterator();
+        Iterator<Integer> iterator = list.iterator();
 
         assertThat(iterator).isNotNull();
         assertThat(iterator.hasNext()).isTrue();
-        assertThat(iterator.next()).isEqualTo("1");
+        assertThat(iterator.next()).isEqualTo(1);
         assertThat(iterator.hasNext()).isTrue();
-        assertThat(iterator.next()).isEqualTo("2");
+        assertThat(iterator.next()).isEqualTo(2);
     }
 
     @Test
     public void iterator_listIsEmpty_shouldReturnEmptyIterator() {
-        LinkedList list = new LinkedList();
+        LinkedList<String> list = new LinkedList<>();
 
         Iterator<String> iterator = list.iterator();
 
@@ -634,53 +623,54 @@ public class LinkedListTest {
 
     @Test
     public void listIterator_listIsNotEmpty_getListIterator() {
-        LinkedList list = new LinkedList();
-        list.add("1");
-        list.add("2");
+        LinkedList <Number> list = new LinkedList<>();
+        Integer i = 1;
+        list.add(i);
+        list.add(10000000000L);
 
-        ListIterator<String> listIterator = list.listIterator();
+        ListIterator<Number> listIterator = list.listIterator();
 
         assertThat(listIterator).isNotNull();
         assertThat(listIterator.hasNext()).isTrue();
-        assertThat(listIterator.next()).isEqualTo("1");
+        assertThat(listIterator.next()).isEqualTo(1);
         assertThat(listIterator.hasNext()).isTrue();
-        assertThat(listIterator.next()).isEqualTo("2");
+        assertThat(listIterator.next()).isEqualTo(10000000000L);
     }
 
     @Test
     public void listIterator_listIsEmpty_shouldReturnEmptyIterator() {
-        LinkedList list = new LinkedList();
+        LinkedList<Number> list = new LinkedList<>();
 
-        ListIterator<String> listIterator = list.listIterator();
+        ListIterator<Number> listIterator = list.listIterator();
 
         assertThat(listIterator.hasNext()).isFalse();
     }
 
     @Test
     public void listIterator_itemByTheIndexExistsInList_getListIteratorFromTheIndexPosition() {
-        LinkedList list = new LinkedList();
-        list.add("1");
-        list.add("2");
+        LinkedList<Number> list = new LinkedList<>();
+        list.add(1);
+        list.add(2);
 
-        ListIterator<String> listIterator = list.listIterator(1);
+        ListIterator<Number> listIterator = list.listIterator(1);
 
         assertThat(listIterator).isNotNull();
         assertThat(listIterator.hasNext()).isTrue();
-        assertThat(listIterator.next()).isEqualTo("2");
+        assertThat(listIterator.next()).isEqualTo(2);
     }
 
     @Test(expectedExceptions = NullPointerException.class)
     public void listIterator_itemByTheIndexDoesNotExistInList_shouldThrowAnException() {
-        LinkedList list = new LinkedList();
-        list.add("1");
-        list.add("2");
+        LinkedList<Number> list = new LinkedList<>();
+        list.add(1);
+        list.add(2);
 
-        ListIterator<String> listIterator = list.listIterator(6);
+        ListIterator<Number> listIterator = list.listIterator(6);
     }
 
     @Test
     public void subList_itemsByTheIndexesExistInList_getSubList() {
-        LinkedList daysOfTheWeek = new LinkedList();
+        LinkedList<String> daysOfTheWeek = new LinkedList<>();
         daysOfTheWeek.add("Monday");
         daysOfTheWeek.add("Tuesday");
         daysOfTheWeek.add("Wednesday");
@@ -698,7 +688,7 @@ public class LinkedListTest {
 
     @Test(expectedExceptions = NoSuchElementException.class)
     public void subList_itemByAnyOfTheIndexesNotExistInList_shouldThrowAnException() {
-        LinkedList list = new LinkedList();
+        LinkedList<String>  list = new LinkedList<>();
         list.add("Hello");
 
         List<String> list2 = list.subList(5, 6);
