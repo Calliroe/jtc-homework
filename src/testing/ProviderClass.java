@@ -3,13 +3,13 @@ package testing;
 public class ProviderClass {
 
     @Before
-    public static void beforeTest() {
-        System.out.println("Before test");
+    public static void beforeTests() {
+        System.out.println("Before tests");
     }
 
     @After
-    public static void afterTest() {
-        System.out.println("After test");
+    public static void afterTests() {
+        System.out.println("After tests");
     }
 
     @Test
