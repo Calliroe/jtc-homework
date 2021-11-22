@@ -6,45 +6,34 @@ import java.lang.reflect.Method;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@SuppressWarnings("deprecation")
 public class RunTests {
+    private static int passes = 0;
+    private static int failures = 0;
+
     public static void run(Class clazz) {
         Method[] methods = clazz.getDeclaredMethods();
-        int passes = 0;
-        int failures = 0;
-        for (Method method : methods) {
-            if (method.getAnnotation(Before.class) != null) {
-                try {
-                    method.invoke(clazz.newInstance());
-                } catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        for (Method method : methods) {
-            if (method.getAnnotation(Test.class) != null) {
-                try {
-                    method.invoke(clazz.newInstance());
-                    passes++;
-                } catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {
-                    e.printStackTrace();
-                    failures++;
-                }
-            }
-        }
+        runMethods(clazz, methods, Before.class);
+        runMethods(clazz, methods, Test.class);
         int total = passes + failures;
-        for (Method method : methods) {
-            if (method.getAnnotation(After.class) != null) {
-                try {
-                    method.invoke(clazz.newInstance());
-                } catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+        runMethods(clazz, methods, After.class);
         System.out.println("===============================================\n" +
                 "Total tests run: " + total + ", Passes: " + passes + ", Failures: " + failures +
                 "\n===============================================");
+        passes = failures = 0;
+    }
+
+    public static void runMethods(Class clazz, Method[] methods, Class annotationClass) {
+        for (Method method : methods) {
+            if (method.isAnnotationPresent(annotationClass)) {
+                try {
+                    method.invoke(clazz.getDeclaredConstructor().newInstance());
+                    if (annotationClass.equals(Test.class)) passes++;
+                } catch (IllegalAccessException | InvocationTargetException | InstantiationException | NoSuchMethodException e) {
+                    e.printStackTrace();
+                    if (annotationClass.equals(Test.class)) failures++;
+                }
+            }
+        }
     }
 
     public static void run(Package pack) {
