@@ -6,7 +6,7 @@ import java.lang.reflect.Method;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class RunTests {
+public class RunTests { // Заменить статики
     private static int passes = 0;
     private static int failures = 0;
 
