@@ -2,7 +2,17 @@ package homework;
 
 public class MersedesBenz implements Car {
     @Override
-    public String getInfo() {
-        return "Белый MersedesBenz. Номер машины: О888АО";
+    public String getColor() {
+        return "Белый";
+    }
+
+    @Override
+    public String getBrand() {
+        return "MersedesBenz";
+    }
+
+    @Override
+    public String getNubmer() {
+        return "О888АО";
     }
 }

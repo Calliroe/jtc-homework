@@ -8,6 +8,21 @@ public class CarDecorator implements Car {
     }
 
     @Override
+    public String getColor() {
+        return wrappee.getColor();
+    }
+
+    @Override
+    public String getBrand() {
+        return wrappee.getBrand();
+    }
+
+    @Override
+    public String getNubmer() {
+        return wrappee.getNubmer();
+    }
+
+    @Override
     public String getInfo() {
         return "***" + wrappee.getInfo() + "***";
     }

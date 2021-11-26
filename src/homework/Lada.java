@@ -2,7 +2,17 @@ package homework;
 
 public class Lada implements Car{
     @Override
-    public String getInfo() {
-        return "Ржавая Lada. Номер машины: В836РК";
+    public String getColor() {
+        return "Ржавая";
+    }
+
+    @Override
+    public String getBrand() {
+        return "Lada";
+    }
+
+    @Override
+    public String getNubmer() {
+        return "В836РК";
     }
 }
