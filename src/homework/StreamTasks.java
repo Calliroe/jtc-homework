@@ -29,16 +29,21 @@ public class StreamTasks {
                 .filter(employee -> employee.getCountry().equals(Country.USA))
                 .collect(Collectors.toList()).forEach(System.out::println);
 
-
         List<Country> list4 = employeeList.stream()
                 .map(Employee::getCountry)
                 .distinct()
                 .collect(Collectors.toList());
         System.out.println("Список всех стран, в которых проживают сотрудники: " + list4);
 
-        Map<Country, Optional<Employee>> map5 = employeeList.stream() // Переделать
+        Map<Country, Optional<Employee>> uniqueEmloyeeMap = employeeList.stream()
                 .collect(Collectors.groupingBy(Employee::getCountry, Collectors.maxBy(Comparator.comparing(Employee::getAge))));
-        System.out.println("Самые старые сотрудники в каждой стране: " + map5);
+        List<Employee> suitableEmployees = employeeList.stream()
+                .filter(employee -> employee.getAge().equals(uniqueEmloyeeMap.get(employee.getCountry()).get().getAge()))
+                .collect(Collectors.toList());
+        Map<Country, List<Employee>> m5 = suitableEmployees.stream()
+                .collect(Collectors.groupingBy(Employee::getCountry));
+        System.out.println("Самые старые сотрудники в каждой стране: " + m5);
+
     }
 
     private static List<Employee> makeEmployeeList() {
