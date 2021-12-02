@@ -1,0 +1,47 @@
+-- 1. Найти всех получателей (receiver_name, account_number), которым было отправлено более 10 платежей.
+
+select c.name receiver_name, a.account_number
+from Client c
+join Account a
+on c.id = a.client_id
+where a.id in (select receiver_account_id
+from payment
+group by receiver_account_id
+having count (*)>10);
+
+-- 2. Найти всех клиентов(client.name), которым ни разу не переводили средства.
+
+select c.name
+from Client c
+join Account a
+on c.id = a.client_id
+where a.id not in (select receiver_account_id from payment);
+
+-- 3. Найти все платежи, где счет плательщика и получателя имеет тип "Расчетный счет".
+
+with V as (select a.id
+from Account a
+join "Account Type" at
+on a.account_type_id = at.id
+where at.name = 'Расчетный счет')
+select id payment
+from payment
+where payer_account_id in (select * from V)
+and receiver_account_id in (select * from V);
+
+-- 4. Вывести сумму всех платежей для счета получателя, номер которого оканчивается на 111.
+
+select sum (p.amount) sum
+from payment p
+join Account a
+on p.receiver_account_id = a.id
+where a.account_number like '%111'
+group by p.receiver_account_id;
+
+-- 5. Вывести уникальный список клиентов (client.name), которые выступают в качестве плательщика.
+
+select distinct c.name
+from Client c
+join Account a
+on c.id = a.client_id
+where a.id in (select payer_account_id from payment);
