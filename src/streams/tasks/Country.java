@@ -1,4 +1,4 @@
-package streams;
+package streams.tasks;
 
 public enum Country {
     RUSSIA("russia_index"),

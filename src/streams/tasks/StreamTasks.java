@@ -1,4 +1,4 @@
-package streams;
+package streams.tasks;
 
 import java.util.*;
 import java.util.stream.Collectors;
