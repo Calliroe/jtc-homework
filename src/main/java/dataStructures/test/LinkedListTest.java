@@ -1,4 +1,4 @@
-package unitTests;
+package dataStructures.test;
 
 import org.testng.annotations.Test;
 import dataStructures.LinkedList;
