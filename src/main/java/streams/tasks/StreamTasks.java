@@ -35,12 +35,11 @@ public class StreamTasks {
                 .collect(Collectors.toList());
         System.out.println("Список всех стран, в которых проживают сотрудники: " + list4);
 
-        Map<Country, Optional<Employee>> uniqueEmloyeeMap = employeeList.stream()
-                .collect(Collectors.groupingBy(Employee::getCountry, Collectors.maxBy(Comparator.comparing(Employee::getAge))));
-        List<Employee> suitableEmployees = employeeList.stream()
-                .filter(employee -> employee.getAge().equals(uniqueEmloyeeMap.get(employee.getCountry()).get().getAge()))
-                .collect(Collectors.toList());
-        Map<Country, List<Employee>> m5 = suitableEmployees.stream()
+        Map<Country, List<Employee>> m5 = employeeList.stream()
+                .filter(employee -> employee.getAge().equals(
+                        employeeList.stream()
+                                .filter(e -> e.getCountry().equals(employee.getCountry()))
+                                .max(Comparator.comparing(Employee::getAge)).orElseThrow().getAge()))
                 .collect(Collectors.groupingBy(Employee::getCountry));
         System.out.println("Самые старые сотрудники в каждой стране: " + m5);
 
